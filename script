@@ -1,21 +1,37 @@
 #!/bin/sh
+
+# Ask the user for the URL to the YouTube video, 
+# then download it. Store the file in the current directory.
 python3 /Users/qmtruong92/Code/mp4/download.py
 
 # Create functions to truncate & concatenate
-filename=$(ls -t1 | head -n 1)
-filename=${filename%.*} # truncate the file extension
+filename=$(ls -t1 | head -n 1) # grab newest file in the directory
+# truncate the file extension, which at this point should be .mp4
+filename=${filename%.*}  
 filename=${filename}.mp3 # concatenate the .mp3 file extension
 
-# Save the file into my music folder
-if [ -f *.webm ]
+# Convert either a .webm or .mp4 file and store it in the qmtruong92/Music/ directory
+if [ -f *.webm ] # if a file with the .webm extension exists in the current directory
     then
+        # FFMPEG Flag Information:
+        # -i [source_file] 
+        # -ab indicates the bitrate
+        # General formula: 
+        # ffmpeg -i (specify file) [path/to/source_file] -ab (indicate the bitrate) [desired_bitrate] path/to/destination 
         ffmpeg -i *.webm -ab 128k /Users/qmtruong92/Music/"$filename"
+        # delete the newest file in directory where script is ran.
+        # note: the newest file in the directory will always be the 
+        # .mp4 of the URL that the user specifies 
         find . -name "*.webm" -type f -delete
-elif [ -f *.mp4 ]
+elif [ -f *.mp4 ] # if a file with the .mp4 extension exists in the current directory
     then
         ffmpeg -i *.mp4 -ab 128k /Users/qmtruong92/Music/"$filename"
         find . -name "*.mp4" -type f -delete
 fi
 
-# Print the metadata of the MP3
-python2 metadata.py
+# The file downloaded through ffmpeg is now deleted. 
+# The file is now in ~/Music/${filename} and is stored as a .mp3
+
+# Working on metadata part
+# # Print the metadata of the MP3
+# python2 metadata.py
