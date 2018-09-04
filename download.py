@@ -16,22 +16,28 @@ album_cover_art_url = yt.thumbnail_url
 # Download the album cover and store it in current working directory
 # Implement error handling - is it needed?
 print("*****************Downloading cover art*****************")
+# create a new file called albumcover.jpg
+# the 'wb' flag means that we can write to the file in binary mode
 album_cover_art_image = open('albumcover.jpg', 'wb')
+# The below line throws an exception, handle it..
+# Exception name: urllib.error.URLError e
 album_cover_art_image.write(requests.get(album_cover_art_url).content)
 album_cover_art_image.close()
 
-print("*****************THUMBNAIL URL = " + album_cover_art_url)
+print("*****************THUMBNAIL URL: " + album_cover_art_url)
 print("*****************TITLE: " + video_title)
+print("\n")
 
 # Download the first stream and save it in the working directory with
 # the original YouTube title
 yt.streams.first().download(None, filename=video_title)
 print("*****************Download has finished!*****************")
+print("\n")
 
 
 print("\n\n\n")
 print("*****************BEGIN BASH SCRIPT*****************")
-
+print("\n")
 
 
 # Download the first stream of this file and save it as craptds (the slashes
